@@ -1,0 +1,11 @@
+BEGINNING-OF-PROGRAM
+  BEGINNING-OF-EXECUTION
+
+	IF r0 == r3 THEN
+		turnoff;
+	
+	IF r0 /= r3 THEN
+		turnoff;
+
+  END-OF-EXECUTION
+END-OF-PROGRAM

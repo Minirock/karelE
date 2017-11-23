@@ -1,0 +1,58 @@
+type token =
+  | BEGIN_PROG
+  | BEGIN_EXEC
+  | END_EXEC
+  | END_PROG
+  | DEF_NEW
+  | AS
+  | MOVE
+  | TURN_LEFT
+  | TURN_OFF
+  | PICK_BEEPER
+  | PUT_BEEPER
+  | NEXT_TO_A_BEEPER
+  | NOT_NEXT_TO_A_BEEPER
+  | FRONT_IS_CLEAR
+  | FRONT_IS_BLOCKED
+  | LEFT_IS_CLEAR
+  | LEFT_IS_BLOCKED
+  | RIGHT_IS_CLEAR
+  | RIGHT_IS_BLOCKED
+  | FACING_NORTH
+  | NOT_FACING_NORTH
+  | FACING_EAST
+  | NOT_FACING_EAST
+  | FACING_SOUTH
+  | NOT_FACING_SOUTH
+  | FACING_WEST
+  | NOT_FACING_WEST
+  | ANY_BEEPERS_IN_BEEPER_BAG
+  | NO_BEEPERS_IN_BEEPER_BAG
+  | SEMI
+  | BEGIN
+  | END
+  | ITERATE
+  | TIMES
+  | WHILE
+  | DO
+  | IF
+  | THEN
+  | ELSE
+  | DEFINE_NEW_INSTRUCTION
+  | REG of (int)
+  | EQ
+  | PLUG_EQ
+  | MINUS_EQ
+  | EQ_EQ
+  | SLASH_EQ
+  | NOT
+  | AND
+  | OR
+  | SET
+  | CLEAR
+  | ASSIGN
+  | INT of (int)
+  | ID of (string)
+
+val prog :
+  (Lexing.lexbuf  -> token) -> Lexing.lexbuf -> unit

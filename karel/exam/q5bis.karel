@@ -1,0 +1,10 @@
+BEGINNING-OF-PROGRAM
+  BEGINNING-OF-EXECUTION
+  
+	r3 <- next-to-a-beeper;
+	r12 <- not-facing-north;
+  
+    turnoff
+  END-OF-EXECUTION
+END-OF-PROGRAM
+
