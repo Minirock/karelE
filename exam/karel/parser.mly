@@ -63,6 +63,15 @@ let gen_while (b, a) =
 %token DEFINE_NEW_INSTRUCTION
 %token AS
 
+%token SET
+%token INC
+%token DEC
+%token EQ
+%token NE
+%token MAX
+%token MIN
+%token <int>REG
+
 %token <int> INT
 %token <string> ID
 
@@ -142,10 +151,18 @@ reg_stmt:	simple_stmt
 
 if_head:	IF test
 				{
-					let r = new_temp () in
+					let r = new_temp ()+ 20 in
 					gen (SETI (r, 0));
 					let a = nextquad () in
 					gen (GOTO_EQ (0, $2, r));
+					a
+				}
+|		IF test_diff
+				{
+					let r = new_temp ()+20 in
+					gen (SETI (r, 0));
+					let a = nextquad () in
+					gen (GOTO_NE (0, $2, r));
 					a
 				}
 ;
@@ -181,6 +198,22 @@ simple_stmt: TURN_LEFT
 					if not (is_defined $1)
 					then raise (SyntaxError (Printf.sprintf "%s is not defined!" $1))
 					else gen (CALL (get_define $1))
+				}
+|			REG SET INT
+				{
+					gen (SETI($1,$3));
+				}
+|			REG INC
+				{
+					let v = new_temp ()+20 in
+					gen (SETI (v,1));
+					gen (ADD($1,$1,v));
+				}
+|			REG DEC
+				{
+					let v = new_temp ()+20 in
+					gen (SETI (v,1));
+					gen (SUB($1,$1,v));
 				}
 ;
 
@@ -318,4 +351,23 @@ test:
 					gen (INVOKE (no_beeper, r, 0));
 					r
 				}
+|			REG NE INT
+				{
+					let v = new_temp()+20 in
+					gen (SETI(v,$3));
+					let v' = new_temp()+20 in
+				  	gen (SUB(v',$1,v));
+				  	v'
+				}
 ;
+
+test_diff:			REG EQ INT
+				{
+					let v = new_temp()+20 in
+					gen (SETI(v,$3));
+					let v' = new_temp()+20 in
+					gen (SUB(v',$1,v));
+					v'
+				}
+;
+

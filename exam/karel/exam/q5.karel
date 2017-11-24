@@ -1,0 +1,16 @@
+BEGINNING-OF-PROGRAM
+  BEGINNING-OF-EXECUTION
+  
+    ITERATE 4 TIMES
+      BEGIN
+        move;
+        turnleft;
+      END;
+  
+    ITERATE r5 TIMES
+      move;
+  
+    turnoff
+  END-OF-EXECUTION
+END-OF-PROGRAM
+

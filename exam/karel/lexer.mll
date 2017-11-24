@@ -2,6 +2,7 @@
 open Parser
 }
 
+let registre = 'r'
 let comment = '{' [^ '}']* '}'
 let space = [' ' '\t' '\n']+
 let int = ['0' - '9']+
@@ -47,6 +48,15 @@ parse	"BEGINNING-OF-PROGRAM"		{ BEGIN_PROG }
 |		"not-facing-west"			{ NOT_FACING_WEST }
 |		"any-beepers-in-beeper-bag"	{ ANY_BEEPERS_IN_BEEPER_BAG }
 |		"no-beepers-in-beeper-bag"	{ NO_BEEPERS_IN_BEEPER_BAG }
+
+|		"<-"				{	SET	}
+|		"++"				{	INC	}
+|		"--"				{	DEC	}
+|		"=="				{	EQ	}
+|		"/="				{	NE	}
+|		"max"				{	MAX	}
+|		"min"				{	MIN	}
+|		registre(int as txt)		{	REG(int_of_string txt)	}
 
 |		";"							{ SEMI }
 
