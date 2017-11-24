@@ -6,7 +6,7 @@ open Comp
 open Karel
 
 let gen_iter (i, a) =
-	let t = new_temp () in
+	let t = new_temp ()+20 in
 	gen (SETI (t, 1));
 	gen (ADD (i, i, t));
 	gen (GOTO (a));
@@ -215,6 +215,24 @@ simple_stmt: TURN_LEFT
 					gen (SETI (v,1));
 					gen (SUB($1,$1,v));
 				}
+|			MAX REG REG
+				{
+					let v = new_temp() + 20 in
+					gen (SUB(v,$2,$3));
+					if(v < 0) then 
+						gen (SET($2,$3))
+					else
+						gen (SET($2,$2));
+				}
+|			MIN REG REG
+				{
+					let v = new_temp() + 20 in
+					gen (SUB(v,$2,$3));
+					if(v > 0) then 
+						gen (SET($2,$3))
+					else
+						gen (SET($2,$2));
+				}
 ;
 
 
@@ -233,13 +251,21 @@ mark:
 
 iter_head:	ITERATE INT TIMES
 				{
-					let i = new_temp () in
-					let n = new_temp () in
+					let i = new_temp ()+20 in
+					let n = new_temp ()+20 in
 					gen (SETI (n, $2));
 					gen (SETI (i, 0));
 					let a = nextquad () in
 					gen (GOTO_GE (0, i, n));
 					(i, a)
+				}
+|		ITERATE REG TIMES
+				{
+					let v = new_temp ()+20 in
+					gen (SETI (v, 0));
+					let a = nextquad () in
+					gen (GOTO_GE (0, v, $2));
+					(v, a)
 				}
 
 test:
